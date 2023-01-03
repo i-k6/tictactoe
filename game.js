@@ -2,7 +2,7 @@ console.log("Welcome To TicTacToe")
 let pturn = new Audio("turn.mp3")
 let agameover = new Audio("gameover.mp3")
 let turn = "X"
-let isgameover = false
+let gameover = false
 
 //func to change turn
 const changeTurn =()=>{
@@ -15,21 +15,25 @@ const checkWin = ()=>{
     let boxtext = document.getElementsByClassName('boxtext');
     let wins = [
 
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,4,8],
-        [2,4,6],
+        [0, 1, 2, 5, 5, 0],
+        [3, 4, 5, 5, 15, 0],
+        [6, 7, 8, 5, 25, 0],
+        [0, 3, 6, -5, 15, 90],
+        [1, 4, 7, 5, 15, 90],
+        [2, 5, 8, 15, 15, 90],
+        [0, 4, 8, 5, 15, 45],
+        [2, 4, 6, 5, 15, 135],
     ]
     wins.forEach(e =>{
-        if(boxtext[e[0]].innerText === boxtext[e[1]].innerText && boxtext[e[2]].innerText === boxtext[e[1]].innerText && boxtext[e[0]].innerText !== '')
-        document.querySelector('.info').innerText = boxtext[e[0]].innerText  +  " Won "
-        isgameover = true
+        if((boxtext[e[0]].innerText === boxtext[e[1]].innerText) && (boxtext[e[2]].innerText === boxtext[e[1]].innerText) && (boxtext[e[0]].innerText !== "") ){
+            gameover = true
+            document.querySelector('.info').innerText = boxtext[e[0]].innerText + " Won"
+            
+            
+            document.querySelector('.imagebox').getElementsByTagName('img')[0].style.width = "200px";
+            agameover.play();
+        }
     })
-
 }
 
 //game logic
@@ -42,29 +46,25 @@ Array.from(boxes).forEach(element =>{
             turn = changeTurn();
             pturn.play();
             checkWin();
-            if(isgameover == !true){
+            if (!gameover){
                 document.getElementsByClassName("info")[0].innerText  = "Turn for " + turn;
-
-            }
-                
-    
-            
+            } 
         }
-
     })
 })
 
 //reset
-
 reset.addEventListener('click', ()=>{
     let boxtexts = document.querySelectorAll('.boxtext');
     Array.from(boxtexts).forEach(element => {
         element.innerText = ""
+        pturn.play();
+        
     });
-    turn = "X"; 
-    isgameover = false
-    document.querySelector(".line").style.width = "0vw";
+    turn = "X";
+    gameover = false
     document.getElementsByClassName("info")[0].innerText  = "Turn for " + turn;
-    document.querySelector('.imagebox').getElementsByTagName('win.gif')[0].style.width = "0px"
-})
+    document.querySelector('.imagebox').getElementsByTagName('img')[0].style.width = "0px"
+});
+
 
